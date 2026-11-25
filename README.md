@@ -1,53 +1,85 @@
 # ReachInbox – Email Scheduler
-A full-stack email scheduling application designed to create and manage email campaigns through a dashboard.
+A full-stack email scheduling application with a dashboard for creating, managing, and tracking email campaigns.
+
+## Project Overview
+ReachInbox is designed to help users organize email campaigns and schedule emails for future delivery through a simple and user-friendly dashboard.
 
 ## Features
-- Dashboard to view email campaign statistics
-- Create and schedule email campaigns
-- React-based user interface
-- Node.js and Express backend
-- REST API health-check endpoint
-- PostgreSQL and Redis integration planned
+- Interactive email campaign dashboard
+- Campaign statistics and status overview
+- Create and manage email campaigns
+- Email scheduling interface
+- REST API backend
+- PostgreSQL database setup
+- Redis service setup using Docker
 
-## Tech Stack
+## Technology Stack
 
-**Frontend**
-- React
+### Frontend
+- React.js
 - TypeScript
 - Vite
 - CSS
 
-**Backend**
+### Backend
 - Node.js
 - Express.js
 - TypeScript
 
-**Planned Integrations**
+### Database and Infrastructure
 - PostgreSQL
 - Prisma ORM
 - Redis
-- BullMQ
-- Nodemailer
+- Docker
+- Docker Compose
 
 ## Project Structure
+
 ```text
-ReachInbox_Scheduler/
+ReachInbox/
+│
 ├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
 ├── backend/
-├── README.md
-└── docker-compose.yml
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   ├── services/
+│   │   ├── queues/
+│   │   ├── workers/
+│   │   └── utils/
+│   │
+│   ├── prisma/
+│   │   └── schema.prisma
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── docker-compose.yml
+├── .gitignore
+└── README.md
 ```
 
-## Getting Started
+## Installation and Setup
+
+### Prerequisites
+
+- Node.js and npm
+- Docker Desktop
+- Git
 
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd ReachInbox_Scheduler
+git clone https://github.com/Hiya-82/ReachInbox.git
+cd ReachInbox
 ```
 
-### 2. Start the frontend
+### 2. Install frontend dependencies
 
 ```bash
 cd frontend
@@ -55,22 +87,81 @@ npm install
 npm run dev
 ```
 
-Open: http://localhost:5173
+Frontend runs at:
 
-### 3. Start the backend
+http://localhost:5173
+
+### 3. Install backend dependencies
 
 Open another terminal:
 
 ```bash
 cd backend
 npm install
+```
+
+Create a `.env` file inside the backend directory:
+
+```env
+PORT=4000
+DATABASE_URL="postgresql://postgres:reachinbox123@localhost:5432/reachinbox?schema=public"
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
+
+Use your own database credentials when configuring your environment.
+
+### 4. Start PostgreSQL and Redis
+
+From the project root:
+
+```bash
+docker compose up -d
+```
+
+### 5. Start the backend
+
+```bash
+cd backend
 npm run dev
 ```
 
-Backend health check: http://localhost:4000/api/health
+Backend health-check endpoint:
 
-## Current Status
-The frontend dashboard prototype and backend health-check API are running. Database persistence, queue processing, and actual email delivery are not yet implemented.
+http://localhost:4000/api/health
+
+## Database
+
+The project uses PostgreSQL with Prisma ORM for database management.
+
+The Prisma schema defines:
+
+- Campaign
+- Email
+
+Run database migration after configuring the database:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+## Current Implementation Status
+- React dashboard prototype created.
+- Express backend and health-check API implemented.
+- PostgreSQL and Redis Docker containers configured.
+- Prisma database schema created.
+- Database migration and authentication troubleshooting in progress.
+- Email delivery and background scheduling are not yet implemented.
+
+## Future Enhancements
+- Background email processing using BullMQ.
+- Email delivery using Nodemailer.
+- Google OAuth authentication.
+- Slack notifications.
+- Campaign search and filtering.
+- Email delivery tracking and retry handling.
 
 ## Author
-Developed as a software engineering project.
+Hiya Dhakad
+
+GitHub: https://github.com/Hiya-82
