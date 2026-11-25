@@ -1,0 +1,35 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  name        String
+  subject     String
+  body        String
+  status      String   @default("SCHEDULED")
+  scheduledAt DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  emails Email[]
+}
+
+model Email {
+  id          String   @id @default(cuid())
+  recipient   String
+  subject     String
+  status      String   @default("PENDING")
+  scheduledAt DateTime
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
